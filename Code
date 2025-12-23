@@ -1,0 +1,160 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_SLOTS 10
+
+typedef struct Vehicle {
+    char licenseNumber[20];
+    char ownerName[50];
+    char vehicleType[20];
+    int slotNumber;
+} Vehicle;
+
+Vehicle parkingSlots[MAX_SLOTS];
+int occupiedSlots = 0;
+
+void displayMenu() {
+    printf("Vehicle Parking Management System\n");
+    printf("1. Park a vehicle\n");
+    printf("2. Remove a vehicle\n");
+    printf("3. Display parked vehicles\n");
+    printf("4. Check availability\n");
+    printf("5. Exit\n");
+}
+
+void parkVehicle() {
+    if (occupiedSlots < MAX_SLOTS) {
+        Vehicle vehicle;
+        printf("Enter license number: ");
+        scanf("%s", vehicle.licenseNumber);
+        printf("Enter owner name: ");
+        scanf("%s", vehicle.ownerName);
+        printf("Enter vehicle type: ");
+        scanf("%s", vehicle.vehicleType);
+        vehicle.slotNumber = occupiedSlots + 1;
+        parkingSlots[occupiedSlots] = vehicle;
+        occupiedSlots++;
+        printf("Vehicle parked successfully at slot %d\n", vehicle.slotNumber);
+    } else {
+        printf("Parking lot is full\n");
+    }
+}
+
+void removeVehicle() {
+    int slotNumber;
+    printf("Enter slot number: ");
+    scanf("%d", &slotNumber);
+    if (slotNumber > 0 && slotNumber <= occupiedSlots) {
+        for (int i = slotNumber - 1; i < occupiedSlots - 1; i++) {
+            parkingSlots[i] = parkingSlots[i + 1];
+        }
+        occupiedSlots--;
+        printf("Vehicle removed successfully\n");
+    } else {
+        printf("Invalid slot number\n");
+    }
+}
+
+void displayParkedVehicles() {
+    if (occupiedSlots > 0) {
+        printf("Parked Vehicles:\n");
+        for (int i = 0; i < occupiedSlots; i++) {
+            printf("Slot Number: %d\n", parkingSlots[i].slotNumber);
+            printf("License Number: %s\n", parkingSlots[i].licenseNumber);
+            printf("Owner Name: %s\n", parkingSlots[i].ownerName);
+            printf("Vehicle Type: %s\n\n", parkingSlots[i].vehicleType);
+        }
+    } else {
+        printf("No vehicles parked\n");
+    }
+}
+
+void checkAvailability() {
+    printf("Available slots: %d\n", MAX_SLOTS - occupiedSlots);
+}
+
+int main() {
+    int choice;
+    while (1) {
+        displayMenu();
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                parkVehicle();
+                break;
+            case 2:
+                removeVehicle();
+                break;
+            case 3:
+                displayParkedVehicles();
+                break;
+            case 4:
+                checkAvailability();
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+    return 0;
+}
+output
+Vehicle Parking Management System
+1. Park a vehicle
+2. Remove a vehicle
+3. Display parked vehicles
+4. Check availability
+5. Exit
+Enter your choice: 1
+Enter license number: ABC123
+Enter owner name: John
+Enter vehicle type: Car
+Vehicle parked successfully at slot 1
+Vehicle Parking Management System
+1. Park a vehicle
+2. Remove a vehicle
+3. Display parked vehicles
+4. Check availability
+5. Exit
+Enter your choice: 3
+Parked Vehicles:
+Slot Number: 1
+License Number: ABC123
+Owner Name: John
+Vehicle Type: Car
+
+Vehicle Parking Management System
+1. Park a vehicle
+2. Remove a vehicle
+3. Display parked vehicles
+4. Check availability
+5. Exit
+Enter your choice: 4
+Available slots: 9
+Vehicle Parking Management System
+1. Park a vehicle
+2. Remove a vehicle
+3. Display parked vehicles
+4. Check availability
+5. Exit
+Enter your choice: 2
+Enter slot number: 1
+Vehicle removed successfully
+Vehicle Parking Management System
+1. Park a vehicle
+2. Remove a vehicle
+3. Display parked vehicles
+4. Check availability
+5. Exit
+Enter your choice: 3
+No vehicles parked
+Vehicle Parking Management System
+1. Park a vehicle
+2. Remove a vehicle
+3. Display parked vehicles
+4. Check availability
+5. Exit
+Enter your choice: 5
